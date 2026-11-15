@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="ur" dir="rtl"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>میری نوٹ بک</title>
+<link rel="manifest" href="manifest.json"><meta name="theme-color" content="#0f766e"><link rel="icon" href="icon.svg">
+<style>
+:root{--bg:#f5f3ee;--cd:#fff;--tx:#1d2b2a;--mu:#6b7776;--ac:#0f766e;--bd:#e3dfd6;color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#121816;--cd:#1c2523;--tx:#e8efed;--mu:#93a19e;--ac:#2dd4bf;--bd:#2c3835;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#121816;--cd:#1c2523;--tx:#e8efed;--mu:#93a19e;--ac:#2dd4bf;--bd:#2c3835;color-scheme:dark}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--tx);font-family:"Noto Naskh Arabic",system-ui,sans-serif;font-size:17px;line-height:1.7}
+button,input,textarea,select{font:inherit;color:inherit}
+.bar{display:flex;align-items:center;gap:6px;padding:10px 12px;background:var(--cd);border-bottom:1px solid var(--bd);position:sticky;top:env(safe-area-inset-top,0px);z-index:5}
+.bar h1{flex:1;margin:0;font-size:19px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.bar input.t{flex:1;min-width:0;border:0;background:none;font-weight:600;font-size:18px;outline:0}
+.ib{border:1px solid var(--bd);background:var(--bg);border-radius:10px;min-width:40px;height:40px;cursor:pointer;font-size:16px}
+.wrap{padding:12px;max-width:720px;margin:auto}
+.srch{width:100%;padding:10px 14px;border-radius:12px;border:1px solid var(--bd);background:var(--cd);margin-bottom:8px;outline:0}
+.crumb{font-size:14px;color:var(--mu);margin:4px 2px 10px;overflow-x:auto;white-space:nowrap}
+.crumb a{color:var(--ac);cursor:pointer}
+.row{display:flex;align-items:center;gap:12px;background:var(--cd);border:1px solid var(--bd);border-radius:14px;padding:10px 12px;margin-bottom:8px;cursor:pointer}
+.row .ic{font-size:26px}.row .m{flex:1;min-width:0}
+.row b{display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.row small{color:var(--mu);display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.fab{position:fixed;bottom:calc(20px + env(safe-area-inset-bottom,0px));inset-inline-start:20px;width:58px;height:58px;border-radius:50%;border:0;background:var(--ac);color:#fff;font-size:30px;box-shadow:0 4px 14px #0004;cursor:pointer}
+:root[data-theme="dark"] .fab{color:#06201c}
+.sheet{position:fixed;inset:0;background:#0006;z-index:20;display:flex;align-items:flex-end}
+.sheet>div{background:var(--cd);width:100%;border-radius:20px 20px 0 0;padding:14px 14px calc(14px + env(safe-area-inset-bottom,0px));max-width:720px;margin:auto}
+.sheet button{display:block;width:100%;text-align:start;border:0;background:none;padding:13px 8px;border-bottom:1px solid var(--bd);cursor:pointer}
+textarea.b{width:100%;min-height:calc(100vh - 170px);border:0;background:none;resize:none;outline:0;padding:14px;line-height:1.9}
+.empty{text-align:center;color:var(--mu);padding:50px 10px}
+.fld{width:100%;padding:9px 12px;border-radius:10px;border:1px solid var(--bd);background:var(--cd);margin-bottom:8px}
+canvas{width:100%;border-radius:12px;border:1px solid var(--bd)}
+.pr{display:flex;gap:8px;margin:8px 0}.pr button{flex:1;padding:10px;border-radius:10px;border:1px solid var(--bd);background:var(--cd);cursor:pointer}
+.toast{position:fixed;bottom:90px;left:50%;transform:translateX(-50%);background:#222;color:#fff;padding:8px 18px;border-radius:20px;z-index:30;font-size:15px}
+</style></head><body><div id="app"></div>
+<script>
+const T={ur:{app:"میری نوٹ بک",srch:"تلاش کریں…",nf:"📁 نیا فولڈر",nn:"📝 نیا نوٹ / پرامپٹ",af:"📄 فائل شامل کریں (کوئی بھی قسم)",nc:"📊 نیا چارٹ",emp:"ابھی کچھ نہیں ہے۔ + دبا کر شروع کریں۔",fn:"فولڈر کا نام",un:"بغیر عنوان",cp:"کاپی",sh:"شیئر",del:"حذف",ren:"نام بدلیں",cpd:"کاپی ہو گیا",cd:"یہ آئٹم ہمیشہ کے لیے حذف ہو جائے گا؟",op:"کھولیں / ڈاؤنلوڈ",ex:"💾 بیک اپ بنائیں",im:"📥 بیک اپ بحال کریں",lg:"🌐 English",th:"🌓 تھیم بدلیں",ch:"حروف",ti:"عنوان",ds:"ہر سطر: نام، قدر (مثلاً جنوری، 50)",bar:"بار",line:"لائن",pie:"پائی",fo:"فولڈر",ok:"ہو گیا",info:"تمام فائلیں اور تحریریں اس ایپ کی اپنی محفوظ کاپی ہیں۔ فون سے ڈیلیٹ کرنے پر بھی یہاں رہیں گی۔ احتیاط کے لیے وقتاً فوقتاً بیک اپ بنائیں۔",mv:"منتقل کریں"},
+en:{app:"My Notebook",srch:"Search…",nf:"📁 New folder",nn:"📝 New note / prompt",af:"📄 Add file (any type)",nc:"📊 New chart",emp:"Nothing here yet. Tap + to start.",fn:"Folder name",un:"Untitled",cp:"Copy",sh:"Share",del:"Delete",ren:"Rename",cpd:"Copied",cd:"Delete this item permanently?",op:"Open / Download",ex:"💾 Create backup",im:"📥 Restore backup",lg:"🌐 اردو",th:"🌓 Switch theme",ch:"chars",ti:"Title",ds:"One per line: label, value (e.g. Jan, 50)",bar:"Bar",line:"Line",pie:"Pie",fo:"Folder",ok:"Done",info:"All files and text are the app's own saved copy and stay here even if deleted from your phone. Make a backup now and then to be safe.",mv:"Move"}};
+let L='ur';try{L=localStorage.getItem('nbl')||'ur'}catch(_){}
+const t=k=>T[L][k]||k,$=s=>document.querySelector(s);
+const e=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const uid=()=>Date.now().toString(36)+Math.random().toString(36).slice(2,6);
+let db=null,items=[],cur=null,ed=null,q='',mem=false;
+function idb(){return new Promise(r=>{try{const o=indexedDB.open('nb',1);o.onupgradeneeded=()=>o.result.createObjectStore('i',{keyPath:'id'});o.onsuccess=()=>r(o.result);o.onerror=()=>r(null)}catch(_){r(null)}})}
+function put(it){if(!db)return;try{db.transaction('i','readwrite').objectStore('i').put(it)}catch(_){}}
+function rm(id){if(!db)return;try{db.transaction('i','readwrite').objectStore('i').delete(id)}catch(_){}}
+function load(){return new Promise(r=>{if(!db)return r([]);const g=db.transaction('i').objectStore('i').getAll();g.onsuccess=()=>r(g.result);g.onerror=()=>r([])})}
+function toast(m){const d=document.createElement('div');d.className='toast';d.textContent=m;document.body.appendChild(d);setTimeout(()=>d.remove(),1600)}
+function mk(type,x){const it={id:uid(),type,parent:cur,title:'',body:'',ts:Date.now(),...x};items.push(it);put(it);return it}
+function crumbs(){let a=[],id=cur;while(id){const f=items.find(x=>x.id==id);if(!f)break;a.unshift(f);id=f.parent}return a}
+const ICON={folder:'📁',note:'📝',pdf:'📄',file:'📎',chart:'📊'};
+const dt=ts=>new Date(ts).toLocaleDateString(L=='ur'?'ur-PK':'en-GB');
+function render(){document.documentElement.lang=L;document.documentElement.dir=L=='ur'?'rtl':'ltr';
+ if(ed&&ed.type=='note')return noteView();if(ed&&ed.type=='chart')return chartView();
+ const c=crumbs(),cf=c[c.length-1];
+ $('#app').innerHTML=`<div class="bar">${cur?`<button class="ib" onclick="up()">${L=='ur'?'→':'←'}</button>`:''}<h1>${e(cf?cf.title:t('app'))}</h1><button class="ib" onclick="menu()">⋯</button></div>
+ <div class="wrap"><input class="srch" id="sq" placeholder="${t('srch')}" value="${e(q)}" oninput="q=this.value;lst()">
+ <div class="crumb"><a onclick="go(null)">🏠</a>${c.map(f=>` / <a onclick="go('${f.id}')">${e(f.title)}</a>`).join('')}</div><div id="lst"></div></div>
+ <button class="fab" onclick="addMenu()">+</button>`;lst()}
+function lst(){let r=q?items.filter(x=>(x.title+' '+(x.type=='note'?x.body:'')).toLowerCase().includes(q.toLowerCase())):items.filter(x=>x.parent==cur);
+ r.sort((a,b)=>(b.type=='folder')-(a.type=='folder')||b.ts-a.ts);
+ $('#lst').innerHTML=r.length?r.map(x=>`<div class="row" onclick="openIt('${x.id}')"><span class="ic">${ICON[x.type]}</span><span class="m"><b>${e(x.title||t('un'))}</b><small>${x.type=='note'?e((x.body||'').slice(0,60)):dt(x.ts)}</small></span><button class="ib" onclick="event.stopPropagation();itMenu('${x.id}')">⋮</button></div>`).join(''):`<div class="empty">${t('emp')}</div>`}
+function go(id){cur=id;ed=null;q='';render()}
+function up(){const f=items.find(x=>x.id==cur);go(f?f.parent:null)}
+function openIt(id){const x=items.find(i=>i.id==id);if(x.type=='folder')return go(id);if(x.type=='pdf'||x.type=='file')return fileAct(x);ed=x;render()}
+function sheet(h){const s=document.createElement('div');s.className='sheet';s.onclick=ev=>{if(ev.target==s)s.remove()};s.innerHTML='<div>'+h+'</div>';document.body.appendChild(s);return s}
+function cl(){document.querySelector('.sheet')?.remove()}
+function addMenu(){sheet(`<button onclick="cl();newFolder()">${t('nf')}</button><button onclick="cl();newNote()">${t('nn')}</button><button onclick="cl();$('#fi').click()">${t('af')}</button><button onclick="cl();newChart()">${t('nc')}</button><input id="fi" type="file" multiple hidden onchange="addFiles(this.files)">`)}
+function newFolder(){const n=prompt(t('fn'));if(n){mk('folder',{title:n});render()}}
+function newNote(){ed=mk('note',{});render()}
+function newChart(){ed=mk('chart',{kind:'bar',body:'A, 30\nB, 55\nC, 40'});render()}
+async function addFiles(fs){for(const f of fs){if(/\.txt$/i.test(f.name)||f.type=='text/plain')mk('note',{title:f.name.replace(/\.txt$/i,''),body:await f.text()});else mk('file',{title:f.name,blob:new Blob([await f.arrayBuffer()],{type:f.type||'application/octet-stream'}),size:f.size})}render()}
+function fileAct(x){const u=URL.createObjectURL(x.blob);sheet(`<button onclick="window.open('${u}','_blank');cl()">${t('op')}</button><button onclick="shareFile('${x.id}');cl()">${t('sh')}</button>`)}
+async function shareFile(id){const x=items.find(i=>i.id==id),f=new File([x.blob],x.title,{type:x.blob.type});try{if(navigator.canShare&&navigator.canShare({files:[f]}))await navigator.share({files:[f],title:x.title});else toast('—')}catch(_){}}
+function itMenu(id){const x=items.find(i=>i.id==id);const fo=items.filter(f=>f.type=='folder'&&f.id!=id);sheet(`<button onclick="ren('${id}')">✏️ ${t('ren')}</button><button onclick="mvMenu('${id}')">📂 ${t('mv')}</button><button onclick="delIt('${id}')" style="color:#dc2626">🗑 ${t('del')}</button>`)}
+function mvMenu(id){cl();const fo=items.filter(f=>f.type=='folder'&&f.id!=id&&!isIn(f.id,id));sheet(`<button onclick="mv('${id}',null)">🏠</button>`+fo.map(f=>`<button onclick="mv('${id}','${f.id}')">📁 ${e(f.title)}</button>`).join(''))}
+function isIn(a,b){let x=items.find(i=>i.id==a);while(x){if(x.id==b)return true;x=items.find(i=>i.id==x.parent)}return false}
+function mv(id,p){const x=items.find(i=>i.id==id);x.parent=p;put(x);cl();render()}
+function ren(id){cl();const x=items.find(i=>i.id==id),n=prompt(t('ti'),x.title);if(n!=null){x.title=n;put(x);render()}}
+function delIt(id){cl();if(!confirm(t('cd')))return;const kill=i=>{items.filter(x=>x.parent==i).forEach(c=>kill(c.id));items=items.filter(x=>x.id!=i);rm(i)};kill(id);render()}
+function menu(){sheet(`<button onclick="cl();tg()">${t('lg')}</button><button onclick="cl();th()">${t('th')}</button><button onclick="cl();exp()">${t('ex')}</button><button onclick="cl();$('#ii').click()">${t('im')}</button><input id="ii" type="file" accept=".json" hidden onchange="imp(this.files[0])"><p style="color:var(--mu);font-size:14px;margin:10px 4px 0">${t('info')}</p>`)}
+function tg(){L=L=='ur'?'en':'ur';try{localStorage.setItem('nbl',L)}catch(_){}render()}
+function th(){const d=document.documentElement,dk=getComputedStyle(d).colorScheme=='dark';d.dataset.theme=dk?'light':'dark'}
+function saveTxt(){if(!ed)return;ed.ts=Date.now();clearTimeout(saveTxt.h);saveTxt.h=setTimeout(()=>put(ed),250)}
+function noteView(){$('#app').innerHTML=`<div class="bar"><button class="ib" onclick="closeEd()">${L=='ur'?'→':'←'}</button><input class="t" id="ti" placeholder="${t('ti')}" value="${e(ed.title)}" oninput="ed.title=this.value;saveTxt()"><button class="ib" onclick="cpTxt()">📋</button><button class="ib" onclick="shTxt()">↗</button></div><textarea class="b" id="bd" dir="auto" oninput="ed.body=this.value;saveTxt();$('#cc').textContent=this.value.length+' '+t('ch')">${e(ed.body)}</textarea><div class="wrap" style="color:var(--mu);font-size:13px" id="cc">${(ed.body||'').length} ${t('ch')}</div>`}
+function closeEd(){put(ed);ed=null;render()}
+async function cpTxt(){try{await navigator.clipboard.writeText(ed.body||'')}catch(_){const a=$('#bd');a.select();document.execCommand('copy')}toast(t('cpd'))}
+async function shTxt(){try{if(navigator.share)await navigator.share({title:ed.title,text:ed.body});else cpTxt()}catch(_){}}
+const COL=['#0f766e','#d97706','#7c3aed','#dc2626','#2563eb','#16a34a','#db2777','#64748b'];
+function parse(s){return(s||'').split('\n').map(l=>{const m=l.match(/^(.*?)[,:،\t]\s*(-?[\d.]+)\s*$/);return m?{l:m[1].trim(),v:parseFloat(m[2])}:null}).filter(Boolean)}
+function draw(cv,ch){const x=cv.getContext('2d'),W=cv.width=640,H=cv.height=380,dk=getComputedStyle(document.documentElement).colorScheme=='dark',fg=dk?'#e8efed':'#1d2b2a';
+ x.fillStyle=dk?'#1c2523':'#fff';x.fillRect(0,0,W,H);x.fillStyle=fg;x.textAlign='center';x.font='600 20px "Noto Naskh Arabic",sans-serif';x.fillText(ch.title||'',W/2,30);
+ const d=parse(ch.body);if(!d.length)return;x.font='14px "Noto Naskh Arabic",sans-serif';
+ if(ch.kind=='pie'){const s=d.reduce((a,b)=>a+Math.max(b.v,0),0)||1;let a0=-Math.PI/2;d.forEach((p,i)=>{const a=Math.max(p.v,0)/s*Math.PI*2;x.fillStyle=COL[i%8];x.beginPath();x.moveTo(190,215);x.arc(190,215,125,a0,a0+a);x.fill();a0+=a;x.fillRect(360,70+i*26,14,14);x.fillStyle=fg;x.textAlign='left';x.fillText(p.l+' ('+Math.round(p.v/s*100)+'%)',382,82+i*26)});return}
+ const mx=Math.max(...d.map(p=>p.v),1),x0=40,x1=W-20,y0=H-50,y1=65,w=(x1-x0)/d.length;x.strokeStyle=dk?'#2c3835':'#ddd';x.beginPath();x.moveTo(x0,y0);x.lineTo(x1,y0);x.stroke();
+ const py=v=>y0-(v/mx)*(y0-y1);
+ if(ch.kind=='line'){x.strokeStyle=COL[0];x.lineWidth=3;x.beginPath();d.forEach((p,i)=>{const X=x0+w*i+w/2;i?x.lineTo(X,py(p.v)):x.moveTo(X,py(p.v))});x.stroke()}
+ d.forEach((p,i)=>{const X=x0+w*i+w/2;if(ch.kind=='line'){x.fillStyle=COL[0];x.beginPath();x.arc(X,py(p.v),5,0,7);x.fill()}else{x.fillStyle=COL[i%8];x.fillRect(X-w*.35,py(p.v),w*.7,y0-py(p.v))}
+ x.fillStyle=fg;x.textAlign='center';x.fillText(p.v,X,py(p.v)-8);x.fillText(p.l,X,y0+22)})}
+function chartView(){$('#app').innerHTML=`<div class="bar"><button class="ib" onclick="closeEd()">${L=='ur'?'→':'←'}</button><h1>${t('nc').slice(2)}</h1><button class="ib" onclick="shChart()">↗</button></div><div class="wrap"><input class="fld" dir="auto" placeholder="${t('ti')}" value="${e(ed.title)}" oninput="ed.title=this.value;upd()"><div class="pr">${['bar','line','pie'].map(k=>`<button onclick="ed.kind='${k}';upd();chartView()" style="${ed.kind==k?'border-color:var(--ac);color:var(--ac)':''}">${t(k)}</button>`).join('')}</div><canvas id="cv"></canvas><p style="color:var(--mu);font-size:14px;margin:8px 0 4px">${t('ds')}</p><textarea class="fld" dir="auto" rows="7" oninput="ed.body=this.value;upd()">${e(ed.body)}</textarea></div>`;draw($('#cv'),ed)}
+function upd(){saveTxt();draw($('#cv'),ed)}
+function shChart(){$('#cv').toBlob(async b=>{const f=new File([b],(ed.title||'chart')+'.png',{type:'image/png'});try{if(navigator.canShare&&navigator.canShare({files:[f]}))await navigator.share({files:[f]});else{const a=document.createElement('a');a.href=URL.createObjectURL(f);a.download=f.name;a.click()}}catch(_){}})}
+const b2d=b=>new Promise(r=>{const f=new FileReader();f.onload=()=>r(f.result);f.readAsDataURL(b)});
+function d2b(u){const[h,d]=u.split(',');const m=h.match(/:(.*?);/)[1],s=atob(d),a=new Uint8Array(s.length);for(let i=0;i<s.length;i++)a[i]=s.charCodeAt(i);return new Blob([a],{type:m})}
+async function exp(){const out=[];for(const i of items){const o={...i};if(i.blob)o.blob=await b2d(i.blob);out.push(o)}const f=new File([JSON.stringify(out)],'notebook-backup.json',{type:'application/json'});
+ try{if(navigator.canShare&&navigator.canShare({files:[f]})){await navigator.share({files:[f]});return}}catch(_){}const a=document.createElement('a');a.href=URL.createObjectURL(f);a.download=f.name;a.click()}
+async function imp(f){if(!f)return;try{const a=JSON.parse(await f.text());for(const o of a){if(o.blob)o.blob=d2b(o.blob);if(!items.find(x=>x.id==o.id))items.push(o);put(o)}render();toast(t('ok'))}catch(_){toast('✗')}}
+(async()=>{db=await idb();items=await load();try{navigator.storage&&navigator.storage.persist&&navigator.storage.persist()}catch(_){}render();if('serviceWorker' in navigator)navigator.serviceWorker.register('sw.js').catch(()=>{})})();
+</script><script>
+const A=(k,u,n)=>{T.ur[k]=u;T.en[k]=n};
+A('sr','تلاش','Search');A('sany','کوئی بھی لفظ','Any word');A('sall','تمام الفاظ','All words');A('sex','پورا جملہ','Exact phrase');A('aty','تمام اقسام','All types');A('note','نوٹ','Notes');A('file','فائلیں / کتب','Files / books');A('chart','چارٹ','Charts');A('fold','فولڈر','Folders');
+A('sh2','کوئی بھی لفظ لکھیں۔ نوٹ، عنوان، ٹیگ اور PDF کے اندر کے متن میں تلاش ہوگی۔','Type any word. Searches notes, titles, tags and text inside PDFs.');A('nores','کوئی نتیجہ نہیں ملا','No results');A('pg','صفحہ','p.');A('inp','صفحات میں ملا','pages matched');
+A('mg','📚 کتاب کی جلدیں جوڑیں (PDF / تصویر / TXT)','📚 Merge book volumes (PDF / image / TXT)');A('mgo','▶ ایک جلد بنائیں','▶ Merge into one');
+A('star','پسندیدہ','Favorite');A('tags','ٹیگ (کاما سے الگ کریں)','Tags (comma separated)');A('rest','بحال کریں','Restore');A('purge','ہمیشہ کے لیے حذف','Delete forever');A('idx','تلاش کے لیے PDF انڈیکس کریں','Index PDF for search');A('idxd','انڈیکس مکمل','Indexed');
+A('spin','پن لاک لگائیں','Set PIN lock');A('rpin','پن لاک ہٹائیں','Remove PIN lock');A('npin','نیا پن (کم از کم 4 ہندسے)','New PIN (min 4 digits)');A('gk','Gemini کی ترتیب','Gemini settings');A('nok','پہلے مینو میں Gemini کی کلید ڈالیں','Add your Gemini key in the menu first');A('offl','انٹرنیٹ نہیں ہے','You are offline');
+A('rem','ایک ہفتے سے بیک اپ نہیں بنا، یہاں دبا کر بنائیں','No backup for a week. Tap to back up');
+A('sum','خلاصہ','Summary');A('tu','اردو ترجمہ','Translate to Urdu');A('te','انگریزی ترجمہ','Translate to English');A('fx','گرامر درست کریں','Fix grammar');A('ask','اپنا سوال لکھیں','Ask your own question');A('rep','نوٹ بدل دیں','Replace note');A('app','نوٹ میں شامل کریں','Append to note');
+A('pdfx','پہلے ایک بار آن لائن کھولیں تاکہ PDF ٹولز محفوظ ہو جائیں','Open once online so PDF tools get saved');
+document.head.insertAdjacentHTML('beforeend','<style>mark{background:#fde047;color:#000;border-radius:3px}</style>');
+let flt='all',S=null,lk=false,purged=0,MG=[],AR='';const NC=new WeakMap();
+try{lk=!!localStorage.getItem('nbp');if(!localStorage.getItem('nbb'))localStorage.setItem('nbb',Date.now())}catch(_){}
+const nz=s=>String(s||'').toLowerCase().replace(/[\u064B-\u065F\u0670\u0640]/g,'').replace(/[يىئ]/g,'ی').replace(/ك/g,'ک').replace(/[ةۃە]/g,'ہ').replace(/[أإآٱ]/g,'ا').replace(/ؤ/g,'و').replace(/[٠-٩]/g,c=>c.charCodeAt(0)-1632).replace(/[۰-۹]/g,c=>c.charCodeAt(0)-1776);
+const isPdf=x=>x.blob&&(x.blob.type=='application/pdf'||/\.pdf$/i.test(x.title));
+const ic=x=>{if(x.type!='file')return ICON[x.type];const m=x.blob?.type||'';return isPdf(x)?'📄':m.startsWith('image/')?'🖼':m.startsWith('audio/')?'🎵':m.startsWith('video/')?'🎬':'📎'};
+const LIB='https://cdn.jsdelivr.net/npm/pdf-lib@1.17.1/dist/pdf-lib.min.js',PJ='https://cdn.jsdelivr.net/npm/pdfjs-dist@3.11.174/build/pdf.min.js',PW='https://cdn.jsdelivr.net/npm/pdfjs-dist@3.11.174/build/pdf.worker.min.js';
+const _ls={};const ls=u=>_ls[u]||(_ls[u]=new Promise((r,j)=>{const s=document.createElement('script');s.src=u;s.onload=r;s.onerror=()=>{delete _ls[u];j(new Error('offline'))};document.head.appendChild(s)}));
+async function pj(){await ls(PJ);if(!pj.w){pj.w=URL.createObjectURL(await(await fetch(PW)).blob());pdfjsLib.GlobalWorkerOptions.workerSrc=pj.w}return pdfjsLib}
+const H=async s=>[...new Uint8Array(await crypto.subtle.digest('SHA-256',new TextEncoder().encode('nb'+s)))].map(b=>b.toString(16).padStart(2,'0')).join('');
+function lockUI(){$('#app').innerHTML=`<div class="wrap" style="padding-top:90px;text-align:center"><div style="font-size:50px">🔒</div><h2>${t('app')}</h2><input class="fld" id="pn" type="password" inputmode="numeric" placeholder="PIN" style="text-align:center;font-size:22px" onkeydown="if(event.key=='Enter')unl()"><button class="ib" style="width:100%" onclick="unl()">${t('ok')}</button></div>`}
+async function unl(){if(await H($('#pn').value)==localStorage.getItem('nbp')){lk=false;render()}else toast('✗')}
+const _r=render;
+render=function(){if(!purged){purged=1;items.filter(x=>x.del&&Date.now()-x.del>2592e6).forEach(x=>{items=items.filter(i=>i!=x);rm(x.id)})}
+ if(lk)return lockUI();if(S)return sview();_r();
+ if(!ed){const b=$('.bar');if(b){const m=b.lastElementChild;[['🔎',"S={q:''};render()",0],['⭐',"flt=flt=='star'?'all':'star';render()",flt=='star'],['🗑',"flt=flt=='trash'?'all':'trash';render()",flt=='trash']].forEach(([i,c,on])=>{const z=document.createElement('button');z.className='ib';z.textContent=i;z.setAttribute('onclick',c);if(on)z.style.borderColor='var(--ac)';b.insertBefore(z,m)});
+  if(items.some(x=>!x.del)&&Date.now()-(+localStorage.getItem('nbb')||0)>6048e5)$('.wrap').insertAdjacentHTML('afterbegin',`<div class="row" onclick="exp()" style="border-color:var(--ac)"><span class="ic">💾</span><span class="m"><b style="white-space:normal">${t('rem')}</b></span></div>`)}}};
+const _e=exp;exp=async function(){await _e();try{localStorage.setItem('nbb',Date.now())}catch(_){}};
+function lst(){let r;if(flt=='trash')r=items.filter(x=>x.del&&!(items.find(p=>p.id==x.parent)||{}).del);else if(q){const k=nz(q);r=items.filter(x=>!x.del&&nz(x.title+' '+(x.tags||[]).join(' ')+' '+(x.type=='note'||x.type=='chart'?x.body:'')).includes(k))}else r=items.filter(x=>!x.del&&(flt=='star'?x.star:x.parent==cur));
+ r.sort((a,b)=>(b.type=='folder')-(a.type=='folder')||b.ts-a.ts);
+ $('#lst').innerHTML=r.length?r.map(x=>`<div class="row" onclick="${x.del?'itMenu':'openIt'}('${x.id}')"><span class="ic">${ic(x)}</span><span class="m"><b>${x.star?'⭐ ':''}${e(x.title||t('un'))}</b><small>${x.type=='note'?e((x.body||'').slice(0,60)):x.type=='file'?((x.size||0)/1048576).toFixed(1)+' MB'+(x.pages?' · 🔎':''):dt(x.ts)}${(x.tags||[]).map(g=>' #'+e(g)).join('')}</small></span><button class="ib" onclick="event.stopPropagation();itMenu('${x.id}')">⋮</button></div>`).join(''):`<div class="empty">${t('emp')}</div>`}
+function itMenu(id){const x=items.find(i=>i.id==id);
+ if(x.del)return sheet(`<button onclick="restore('${id}')">♻️ ${t('rest')}</button><button onclick="purge('${id}')" style="color:#dc2626">❌ ${t('purge')}</button>`);
+ sheet(`<button onclick="star('${id}')">${x.star?'☆':'⭐'} ${t('star')}</button><button onclick="tags('${id}')">🏷 ${t('tags').split(' (')[0]}</button><button onclick="ren('${id}')">✏️ ${t('ren')}</button><button onclick="mvMenu('${id}')">📂 ${t('mv')}</button>${isPdf(x)?`<button onclick="cl();idxPdf(items.find(i=>i.id=='${id}'))">🔎 ${t('idx')}</button>`:''}<button onclick="delIt('${id}')" style="color:#dc2626">🗑 ${t('del')}</button>`)}
+function star(id){const x=items.find(i=>i.id==id);x.star=!x.star;put(x);cl();render()}
+function tags(id){cl();const x=items.find(i=>i.id==id),v=prompt(t('tags'),(x.tags||[]).join(', '));if(v!=null){x.tags=v.split(/[,،]/).map(s=>s.trim()).filter(Boolean);put(x);render()}}
+function walk(i,f){const x=items.find(z=>z.id==i);f(x);items.filter(z=>z.parent==i).forEach(c=>walk(c.id,f))}
+function delIt(id){cl();const ts=Date.now();walk(id,x=>{x.del=ts;put(x)});render();toast('🗑')}
+function restore(id){cl();walk(id,x=>{delete x.del;put(x)});render()}
+function purge(id){cl();if(!confirm(t('cd')))return;const k=i=>{items.filter(x=>x.parent==i).forEach(c=>k(c.id));items=items.filter(x=>x.id!=i);rm(i)};k(id);render()}
+function addMenu(){sheet(`<button onclick="$('#mf').click()">${t('mg')}</button><button onclick="cl();newFolder()">${t('nf')}</button><button onclick="cl();newNote()">${t('nn')}</button><button onclick="$('#fi').click()">${t('af')}</button><button onclick="cl();newChart()">${t('nc')}</button><input id="fi" type="file" multiple hidden onchange="addFiles(this.files)"><input id="mf" type="file" multiple hidden onchange="mgPick(this.files)">`)}
+const _af=addFiles;addFiles=async function(fs){cl();const n0=items.length;await _af(fs);const nw=items.slice(n0).filter(isPdf);(async()=>{for(const x of nw)await idxPdf(x)})()};
+const _im=imp;imp=function(f){cl();return _im(f)};
+function menu(){const p=localStorage.getItem('nbp');sheet(`<button onclick="cl();tg()">${t('lg')}</button><button onclick="cl();th()">${t('th')}</button><button onclick="cl();exp()">${t('ex')}</button><button onclick="$('#ii').click()">${t('im')}</button><input id="ii" type="file" accept=".json" hidden onchange="imp(this.files[0])"><button onclick="setPin()">🔒 ${p?t('rpin'):t('spin')}</button><button onclick="setKey()">🔑 ${t('gk')}</button><p style="color:var(--mu);font-size:14px;margin:10px 4px 0">${t('info')}</p>`)}
+async function setPin(){cl();if(localStorage.getItem('nbp')){if(confirm(t('rpin')+'?')){localStorage.removeItem('nbp');toast('✓')}return}const p=prompt(t('npin'));if(p&&p.length>=4){localStorage.setItem('nbp',await H(p));toast('✓')}else if(p)toast('PIN ≥ 4')}
+function setKey(){cl();const k=prompt('Gemini API key',localStorage.getItem('nbk')||'');if(k==null)return;localStorage.setItem('nbk',k.trim());const m=prompt('Model',localStorage.getItem('nbm')||'gemini-2.5-flash');if(m)localStorage.setItem('nbm',m.trim())}
+function ov(h,bar){const d=document.createElement('div');d.id='ov';d.style.cssText='position:fixed;inset:0;background:var(--bg);z-index:25;overflow:auto;padding-top:env(safe-area-inset-top,0px)';d.innerHTML=`<div class="bar" style="top:0"><button class="ib" onclick="$('#ov').remove()">✕</button>${bar||''}</div>`+h;document.body.appendChild(d);return d}
+const bt=x=>`<b style="flex:1;overflow:hidden;white-space:nowrap;text-overflow:ellipsis">${e(x.title)}</b>`;
+function fileAct(x){const m=x.blob.type||'',u=URL.createObjectURL(x.blob);
+ if(isPdf(x))return pdfOpen(x);
+ if(m.startsWith('image/'))return ov(`<div style="text-align:center;padding:8px"><img src="${u}" style="max-width:100%"></div>`,bt(x)+`<button class="ib" onclick="ocrImg('${x.id}')">✨</button><button class="ib" onclick="shareFile('${x.id}')">↗</button>`);
+ if(/^(audio|video)\//.test(m)){const n=m[0]=='a'?'audio':'video';return ov(`<div style="padding:14px"><${n} src="${u}" controls style="width:100%"></${n}></div>`,bt(x)+`<button class="ib" onclick="shareFile('${x.id}')">↗</button>`)}
+ sheet(`<button onclick="window.open('${u}','_blank');cl()">${t('op')}</button><button onclick="shareFile('${x.id}');cl()">${t('sh')}</button>`)}
+async function pdfOpen(x,pg){try{const P=await pj(),d=await P.getDocument({data:await x.blob.arrayBuffer()}).promise,n=d.numPages;
+ const o=ov('<div id="pv" style="padding:8px"></div>',bt(x)+`<input class="fld" type="number" min="1" max="${n}" value="${pg||1}" style="width:76px;margin:0" onchange="pgGo(this.value)"><span style="font-size:13px">/ ${n}</span>`);
+ const pv=o.querySelector('#pv'),v1=(await d.getPage(1)).getViewport({scale:1}),w=Math.min(innerWidth-16,900),h=w*v1.height/v1.width;
+ const io=new IntersectionObserver(es=>es.forEach(async en=>{if(!en.isIntersecting)return;const c=en.target;io.unobserve(c);const p=await d.getPage(+c.dataset.i),v=p.getViewport({scale:w/p.getViewport({scale:1}).width*Math.min(devicePixelRatio,2)});c.width=v.width;c.height=v.height;c.style.height='auto';await p.render({canvasContext:c.getContext('2d'),viewport:v}).promise}),{root:o,rootMargin:'700px'});
+ for(let i=1;i<=n;i++){const c=document.createElement('canvas');c.dataset.i=i;c.id='p'+i;c.style.cssText=`width:${w}px;max-width:100%;height:${h}px;display:block;margin:0 auto 8px;background:#fff;border-radius:6px`;pv.appendChild(c);io.observe(c)}
+ window.pgGo=v=>{const c=o.querySelector('#p'+Math.max(1,Math.min(n,+v)));c&&c.scrollIntoView()};if(pg>1)setTimeout(()=>pgGo(pg),80)}catch(_){toast(t('pdfx'))}}
+async function idxPdf(x){try{const P=await pj(),d=await P.getDocument({data:await x.blob.arrayBuffer()}).promise,ps=[];for(let i=1;i<=d.numPages;i++){ps.push((await(await d.getPage(i)).getTextContent()).items.map(z=>z.str).join(' '));if(i%25==0)toast('🔎 '+i+'/'+d.numPages)}x.pages=ps;NC.delete(x);put(x);render();toast('✓ '+t('idxd'))}catch(_){}}
+function mgPick(fs){MG=[...fs];MG.tt='';mgUI()}
+function mgUI(){document.querySelector('.sheet')?.remove();sheet(`<b>${t('mg')}</b><input class="fld" id="mt" placeholder="${t('ti')}" value="${e(MG.tt)}" style="margin-top:8px">`+MG.map((f,i)=>`<div style="display:flex;align-items:center;padding:4px 0"><span style="flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:14px">${i+1}. ${e(f.name)}</span><a onclick="mgMv(${i},-1)" style="padding:6px 12px">↑</a><a onclick="mgMv(${i},1)" style="padding:6px 12px">↓</a><a onclick="mgRm(${i})" style="padding:6px 12px">✕</a></div>`).join('')+`<button onclick="MG.tt=$('#mt').value;$('#mi').click()">＋</button><button onclick="mgGo()" style="color:var(--ac);font-weight:600">${t('mgo')} (${MG.length})</button><input id="mi" type="file" multiple hidden onchange="MG.push(...this.files);mgUI()">`)}
+function mgMv(i,d){MG.tt=$('#mt').value;const j=i+d;if(j<0||j>=MG.length)return;[MG[i],MG[j]]=[MG[j],MG[i]];mgUI()}
+function mgRm(i){MG.tt=$('#mt').value;MG.splice(i,1);MG.length?mgUI():cl()}
+async function img2j(f){const b=await createImageBitmap(f),c=document.createElement('canvas');c.width=b.width;c.height=b.height;c.getContext('2d').drawImage(b,0,0);return{w:b.width,h:b.height,d:await(await new Promise(r=>c.toBlob(r,'image/jpeg',.9))).arrayBuffer()}}
+async function pgImg(o,j){const im=await o.embedJpg(j.d),k=Math.min(1,842/Math.max(j.w,j.h)),p=o.addPage([j.w*k,j.h*k]);p.drawImage(im,{x:0,y:0,width:j.w*k,height:j.h*k})}
+async function txt2j(s){const W=1240,H=1754,c=document.createElement('canvas');c.width=W;c.height=H;const x=c.getContext('2d'),rtl=/[\u0600-\u06FF]/.test(s),out=[],X=rtl?W-90:90;x.font='36px "Noto Naskh Arabic",system-ui,sans-serif';x.direction=rtl?'rtl':'ltr';x.textAlign=rtl?'right':'left';let y=0;
+ const nw=()=>{x.fillStyle='#fff';x.fillRect(0,0,W,H);x.fillStyle='#000';y=100},fl=async()=>out.push({w:W,h:H,d:await(await new Promise(r=>c.toBlob(r,'image/jpeg',.9))).arrayBuffer()}),ad=async()=>{y+=62;if(y>H-100){await fl();nw()}};nw();
+ for(const pa of s.split('\n')){let ln='';for(const w of pa.split(' ')){const tt=ln?ln+' '+w:w;if(x.measureText(tt).width>W-180&&ln){x.fillText(ln,X,y);await ad();ln=w}else ln=tt}x.fillText(ln,X,y);await ad()}
+ if(y>162)await fl();return out}
+async function mgGo(){MG.tt=$('#mt').value||MG[0].name.replace(/\.[^.]+$/,'');cl();toast('⏳');try{await ls(LIB);const{PDFDocument}=PDFLib,o=await PDFDocument.create();let sk=0;
+ for(const f of MG){const n=f.name.toLowerCase();
+  if(f.type=='application/pdf'||n.endsWith('.pdf')){const s=await PDFDocument.load(await f.arrayBuffer(),{ignoreEncryption:true});(await o.copyPages(s,s.getPageIndices())).forEach(p=>o.addPage(p))}
+  else if(f.type.startsWith('image/'))await pgImg(o,await img2j(f));
+  else if(f.type.startsWith('text/')||n.endsWith('.txt'))for(const j of await txt2j(await f.text()))await pgImg(o,j);
+  else sk++}
+ const b=new Blob([await o.save()],{type:'application/pdf'}),it=mk('file',{title:MG.tt,blob:b,size:b.size});render();toast(sk?'✓ ('+sk+' ✗)':'✓');idxPdf(it)}catch(x){toast('✗ '+(x.message=='offline'?t('pdfx'):x.message))}}
+function sview(){$('#app').innerHTML=`<div class="bar"><button class="ib" onclick="S=null;render()">${L=='ur'?'→':'←'}</button><input class="t" id="sq2" placeholder="${t('sr')}…" value="${e(S.q)}" oninput="doS()"></div><div class="wrap"><div style="display:flex;gap:8px"><select class="fld" id="sm" onchange="doS()"><option value="any">${t('sany')}</option><option value="all">${t('sall')}</option><option value="ex">${t('sex')}</option></select><select class="fld" id="st" onchange="doS()">${[['all','aty'],['note','note'],['file','file'],['chart','chart'],['folder','fold']].map(([v,k])=>`<option value="${v}">${t(k)}</option>`).join('')}</select></div><div id="sr"></div></div>`;if(S.m)$('#sm').value=S.m;if(S.ty)$('#st').value=S.ty;doS();$('#sq2').focus()}
+function snip(s,ph){let i=Math.min(...ph.map(w=>{const k=s.indexOf(w);return k<0?1e9:k}));if(i>=1e9)i=0;return s.slice(Math.max(0,i-40),i+110)}
+function hl(s,ph){let h=e(s);ph.forEach(w=>{if(w)h=h.replace(new RegExp(w.replace(/[.*+?^${}()|[\]\\]/g,'\\$&'),'g'),m=>'<mark>'+m+'</mark>')});return h}
+function doS(){S.q=$('#sq2').value;S.m=$('#sm').value;S.ty=$('#st').value;const m=S.m,qn=nz(S.q).trim(),ph=m=='ex'?[qn]:qn.split(/\s+/).filter(Boolean),el=$('#sr');
+ if(!qn){el.innerHTML=`<div class="empty">${t('sh2')}</div>`;return}
+ const ok=s=>m=='any'?ph.some(w=>s.includes(w)):ph.every(w=>s.includes(w)),cnt=s=>ph.reduce((a,w)=>a+s.split(w).length-1,0),R=[];
+ for(const x of items){if(x.del||(S.ty!='all'&&S.ty!=x.type))continue;const hd=nz(x.title+' '+(x.tags||[]).join(' '));let hits=0,sn=[],np=0;
+  if(x.pages){if(!NC.has(x))NC.set(x,x.pages.map(nz));NC.get(x).forEach((s,i)=>{if(ok(s)){hits+=cnt(s);np++;if(sn.length<3)sn.push([i+1,snip(s,ph)])}});if(ok(hd))hits+=5}
+  else{const b=nz(x.type=='note'||x.type=='chart'?x.body:''),s=hd+' '+b;if(ok(s)){hits=cnt(s)+(ok(hd)?5:0);if(b)sn.push([0,snip(b,ph)])}}
+  if(hits)R.push({x,hits,sn,np})}
+ R.sort((a,b)=>b.hits-a.hits);
+ el.innerHTML=R.length?R.slice(0,50).map(({x,sn,np})=>`<div class="row" style="display:block" onclick="openRes('${x.id}',${sn[0]?sn[0][0]:0})"><div style="display:flex;gap:10px;align-items:center"><span class="ic">${ic(x)}</span><b style="flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${e(x.title||t('un'))}</b>${np?`<small>${np} ${t('inp')}</small>`:''}</div>${sn.map(([p,s])=>`<small style="white-space:normal;margin-top:4px" onclick="event.stopPropagation();openRes('${x.id}',${p})">${p?t('pg')+' '+p+': ':''}${hl(s,ph)}</small>`).join('')}</div>`).join(''):`<div class="empty">${t('nores')}</div>`}
+function openRes(id,p){const x=items.find(i=>i.id==id);if(x.type=='folder'){S=null;return go(id)}if(x.type=='note'||x.type=='chart'){S=null;ed=x;return render()}if(isPdf(x))return pdfOpen(x,p);fileAct(x)}
+async function gem(p,img){const k=localStorage.getItem('nbk');if(!k){toast(t('nok'));return null}const parts=[{text:p}];if(img)parts.push({inline_data:{mime_type:img.type,data:(await b2d(img)).split(',')[1]}});
+ try{const r=await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${localStorage.getItem('nbm')||'gemini-2.5-flash'}:generateContent?key=${k}`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({contents:[{parts}]})}),j=await r.json();return j.candidates?.[0]?.content?.parts?.map(z=>z.text).join('')||j.error?.message||'✗'}catch(_){return t('offl')}}
+async function ocrImg(id){const x=items.find(i=>i.id==id);toast('⏳');const r=await gem('Extract all the text from this image exactly as written. Return only the text.',x.blob);if(r){mk('note',{title:x.title,body:r,parent:x.parent});render();toast('✓')}}
+function aiUI(){sheet(['sum','tu','te','fx','ask'].map(k=>`<button onclick="aiRun('${k}')">✨ ${t(k)}</button>`).join(''))}
+async function aiRun(k){let p={sum:'Summarize the following text briefly, in the same language as the text:\n\n',tu:'Translate the following text to Urdu. Return only the translation:\n\n',te:'Translate the following text to English. Return only the translation:\n\n',fx:'Fix grammar and spelling. Keep language and meaning. Return only the corrected text:\n\n'}[k];if(k=='ask'){const a=prompt(t('ask'));if(!a)return;p=a+'\n\n'}cl();toast('⏳');AR=await gem(p+(ed.body||''));if(AR==null)return;sheet(`<div dir="auto" style="white-space:pre-wrap;max-height:45vh;overflow:auto;padding:6px">${e(AR)}</div><button onclick="aiUse('rep')">${t('rep')}</button><button onclick="aiUse('app')">${t('app')}</button><button onclick="aiUse('cp')">${t('cp')}</button>`)}
+function aiUse(w){cl();if(w=='cp'){navigator.clipboard.writeText(AR);toast(t('cpd'));return}ed.body=w=='rep'?AR:(ed.body||'')+'\n\n'+AR;saveTxt();put(ed);render()}
+const wc=s=>(s||'').trim().split(/\s+/).filter(Boolean).length;
+function noteView(){const fs=localStorage.getItem('nbf')||17;$('#app').innerHTML=`<div class="bar"><button class="ib" onclick="closeEd()">${L=='ur'?'→':'←'}</button><input class="t" id="ti" placeholder="${t('ti')}" value="${e(ed.title)}" oninput="ed.title=this.value;saveTxt()"><button class="ib" onclick="cpTxt()">📋</button><button class="ib" onclick="shTxt()">↗</button></div><div class="bar" style="position:static;overflow-x:auto;padding:6px 12px">${[['↶',"edc('undo')"],['↷',"edc('redo')"],['☐',"chk()"],['A−',"fsz(-1)"],['A+',"fsz(1)"],['▶',"useTpl()"],['✨',"aiUI()"]].map(([i,c])=>`<button class="ib" style="flex:none" onclick="${c}">${i}</button>`).join('')}</div><textarea class="b" id="bd" dir="auto" style="font-size:${fs}px" oninput="ed.body=this.value;saveTxt();$('#cc').textContent=this.value.length+' '+t('ch')+' · '+wc(this.value)+' words'">${e(ed.body)}</textarea><div class="wrap" style="color:var(--mu);font-size:13px" id="cc">${(ed.body||'').length} ${t('ch')} · ${wc(ed.body)} words</div>`}
+function edc(c){$('#bd').focus();document.execCommand(c)}
+function chk(){const a=$('#bd'),v=a.value,s=v.lastIndexOf('\n',a.selectionStart-1)+1,m=v.slice(s).match(/^(☐|☑) ?/);let n=!m?'☐ '+v.slice(s):m[1]=='☐'?'☑ '+v.slice(s+m[0].length):v.slice(s+m[0].length);a.value=v.slice(0,s)+n;ed.body=a.value;saveTxt();a.focus()}
+function fsz(d){const f=Math.max(12,Math.min(32,(+localStorage.getItem('nbf')||17)+d));localStorage.setItem('nbf',f);$('#bd').style.fontSize=f+'px'}
+async function useTpl(){let s=ed.body||'';for(const v of new Set(s.match(/\{[^{}\n]{1,40}\}/g)||[])){const a=prompt(v);if(a===null)return;s=s.split(v).join(a)}try{await navigator.clipboard.writeText(s)}catch(_){}toast(t('cpd'))}
+</script></body></html>
