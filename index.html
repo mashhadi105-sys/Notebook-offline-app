@@ -380,4 +380,15 @@ function openSb(){const sg=js=>`onclick='sbGo(${JSON.stringify(js).replace(/'/g,
  document.body.insertAdjacentHTML('beforeend',`<div id="sbo" onclick="if(event.target==this)sb0()"><div id="sb"><div style="display:flex;align-items:center;gap:8px;padding:4px 8px">${logo(36)}<b style="flex:1;font-size:19px">${t('app')}</b><button class="ib" onclick="SBE=!SBE;sb0();openSb()" style="${SBE?'border-color:var(--ac)':''}">↕</button><button class="ib" onclick="sb0();tg()">🌐</button><button class="ib" onclick="th()">🌓</button></div>
  <a ${sg('go(null)')}>🏠 ${t('home')}</a><a ${sg('flt="star";render()')}>⭐ ${t('star')}</a><a ${sg('S={q:""};render()')}>🔎 ${t('sr')}</a><a ${sg('flt="trash";render()')}>🗑 ${t('trash')}</a><a onclick="sb0();menu()">⚙️ ${t('setg')}</a>
  <h4>${t('boards')}</h4>${ls2('board')}<h4>${t('books')}</h4>${ls2('book')}<h4>${t('folders')}</h4>${tree(null,0)}<h4>${t('recent')}</h4>${rc}</div></div>`)}
+</script><script>
+A('shr','📥 شیئر شدہ','📥 Shared');
+const _r5=render;let sh5=0;
+render=function(){_r5();if(!sh5&&/[?&]share=1/.test(location.search)){sh5=1;recvShare()}};
+async function recvShare(){try{const c=await caches.open('nb-share'),m=await c.match('meta');if(!m)return;const mt=await m.json();
+ let fo=items.find(x=>x.shared&&!x.del);if(!fo)fo=mk('folder',{parent:null,title:t('shr'),shared:true});const pd=[];let n=0;
+ for(let i=0;;i++){const r=await c.match('f'+i);if(!r)break;const b=await r.blob(),ty=r.headers.get('Content-Type')||'',it=mk('file',{parent:fo.id,title:decodeURIComponent(r.headers.get('X-Name')||'file'),blob:new Blob([b],{type:ty}),size:b.size});n++;if(isPdf(it))pd.push(it)}
+ const tx=[mt.text,mt.url].filter(Boolean).join('\n');if(tx){mk('note',{parent:fo.id,title:mt.title||tx.slice(0,40),body:tx});n++}
+ for(const k of await c.keys())await c.delete(k);
+ try{history.replaceState(history.state,'',location.pathname)}catch(_){}
+ go(fo.id);toast('✓ '+n);(async()=>{for(const x of pd)await idxPdf(x)})()}catch(_){}}
 </script></body></html>
